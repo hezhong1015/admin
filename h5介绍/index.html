@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>个人简介</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="./js/html2canvas.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/reset.css">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+<script type="text/javascript">
+function checkData() {
+    var avatar = $(".avatar").attr("src");
+    if (avatar == "") {
+        alert("头像未选择");
+        return false
+    };
+    var messageB = document.querySelectorAll(".addMeaasge")
+    for (var i = 0; i < messageB.length; i++) {
+        if (messageB[i].value == '') {
+            alert("个人信息不完整");
+             return false;
+        }
+    };
+    if ($(".intrduceSelf").val() == '') {
+        alert("个人简介未填写");
+         return false;
+    };
+    if ($(".nameCon input").val() == '') {
+        alert("姓名未填写");
+         return false;
+    };
+    if ($(".nameMess").val() == '') {
+        alert("昵称未填写");
+        return false;
+    };
+    if ($("input[name='age']").val() == '') {
+        alert("年龄未填写");
+        return false;
+    };
+    if ($("input[name='sex']").val() == '') {
+        alert("性别未填写");
+        return false;
+    };
+    if ($(".codeInout").val() == '') {
+        alert("编号未填写");
+        return false;
+    };
+    if ($(".intrduceMe textarea").val() == '') {
+        alert("个人的介绍");
+        return false;
+    };
+    $(".messageBox .item .addMeaasge").css({
+        "border-bottom":"1px solid  transparent"
+	})
+	$(".messageBox .item .intrduceSelf").css({
+		"border":"1px solid transparent"
+	})
+    return true;
+}
+</script>
+
+<body>
+    <div class="center">
+        <div class="produceBox" id="view">
+            <img src="./img/bg.jpg" class="bg">
+            <div class="contentBox">
+                <label class="avater" for="getAvatar">
+                    <img src=""  class="avatar">
+				</label>
+                    <ul class="messageBox">
+                        <li class="item"><span>部门：</span><input type="text" class="addMeaasge" name="part"></li>
+                        <li class="item"><span>岗位：</span><input type="text" class="addMeaasge" name="job"></li>
+                        <li class="item"><span>手机：</span><input type="text" class="addMeaasge" name="phone"></li>
+                        <li class="item"><span>邮箱：</span><input type="text" class="addMeaasge" name="ems"></li>
+                        <li class="item"><span>爱好：</span><input type="text" class="addMeaasge" name="intres"></li>
+                        <li class="item">
+                            <span>自我介绍：</span>
+                        </li>
+                        <li class="item">
+                            <textarea class="intrduceSelf"></textarea>
+                        </li>
+                    </ul>
+            </div>
+            <div class="personBox">
+                <img src="./img/1.png" class="bgPic">
+                <div class="nameCon">
+                    <input type="text" maxlength="5" name="names" placeholder="姓名">
+                </div>
+                <div class="nameBox">
+                    <span class="nameTip">花名:</span>
+                    <input type="text" name="nickName" class="nameMess" maxlength="10">
+                </div>
+                <ul class="sexBox">
+                    <li><input type="text" name="age" maxlength="2" placeholder="年龄"> </li><span>岁/</span>
+                    <li><input type="text" name="sex" maxlength="1" placeholder="性别"> </li><span>/</span>
+                    <li><input type="text" class="codeInout" name="code" placeholder="编号"> </li>
+                </ul>
+                <div class="Line"></div>
+                <div class="intrduceMe">
+                    <h4>出处及理由：</h4>
+                    <textarea maxlength="50"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="centerCanvas">
+    </div>
+    <div class="produceBottom">
+        <button type="button" class="btn btn-success save">确 定 提 交</button>
+        <button type="button" class="btn btn-success reset">重 新 填 写</button>
+    </div>
+    <input type="file" accept=".jpg, .jpeg, .png" id="getAvatar" style="display: none;">
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+window.onload = function() {
+    $(".save").click(function() {
+		if(!checkData()){
+			return;
+		}
+        var _this = this;
+        html2canvas(document.querySelector("#view")).then(function(canvas) {
+        
+            $(".produceBox").css({
+                "display": "none"
+            })
+            $(".centerCanvas").css({
+                "display": "block"
+            }).html(canvas)
+            $(_this).css({
+                "display": "none"
+            }).siblings().css({
+                "display": "inline-block"
+            })
+        })
+    })
+
+    $(".reset").click(function() {
+        window.location.reload()
+    })
+
+    $("#getAvatar").change(function(e) {
+        var url = e.target.files[0]
+        var windowURL = window.URL || window.webkitURL;
+        var dataURL;
+        dataURL = windowURL.createObjectURL(url);
+        $(".avatar").attr('src', dataURL);
+    })
+}
+</script>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<title>江苏凯成智能科技有限公司</title>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<style>
+*{margin:0;padding:0;}
+li{list-style: none;}
+img{display:block;}
+i{font-style:normal;}
+.vetically{justify-content:center;align-items:center;display:-webkit-flex;}
+.prize_con{position: absolute;width: 100%;height: 100%;background: url(images/firstp_bg.jpg) no-repeat left top / 100% 100%;overflow:scroll;}
+.prize_grade{font-size:98px;color: #ffe9af;text-align: center;margin: 40px auto 0;}
+.prize_list{width:55%;height:350px;margin: 20px auto 55px;text-align: center;overflow: hidden;}
+.prize_list ul{width:100%;font-size:0;}
+.prize_list li{display:inline-block;font-size:45px;color:#f1bf90;text-align: center;width:20%;line-height:100px;font-family:Arial;}
+.start{width: 250px;height: 90px;margin:0 auto;cursor:pointer;}
+.prize_set{position: absolute;right: 60px;bottom: 40px;font-size: 16px;color: #f7f3e8;line-height: 30px;}
+.prize_set li{display: inline-block;margin-left: 20px;}
+.set_list select,.set_grade select,.set_people input, .set_money input{background: #fff;width:120px;height:36px;border:1px solid #8f0000;margin-left: .1rem;color: #000;padding-left:10px;}
+.prize_pr{text-align:center;font-size:60px;color: #f7f3e8;margin-top: 80px;}
+.prize_prize{position: absolute;width:150px;left: 80px;}
+.prize_p,.prize_a,.prize_b,.prize_c,.prize_d,.prize_e{font-size:30px;color: #f7f3e8;text-align: center;}
+.prize_pp,.prize_aa,.prize_bb,.prize_cc,.prize_dd,.prize_ee{font-size:20px;color:#f1bf90;text-align: center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="prize_con">
+     <div class="prize_pr">年会抽奖活动</div>
+     <div class="prize_prize">
+         <div class="prize_p"><div class="prize_pp"></div></div>
+         <div class="prize_a"><div class="prize_aa"></div></div>
+         <div class="prize_b"><div class="prize_bb"></div></div>
+         <div class="prize_c"><div class="prize_cc"></div></div>
+         <div class="prize_d"><div class="prize_dd"></div></div>
+         <div class="prize_e"><div class="prize_ee"></div></div>
+     </div>
+      <p class="prize_grade"><span></span> <i></i></p>
+      
+        <div class="prize_list vetically">
+          <ul>
+            <!-- <li>中奖人</li> -->
+          </ul>
+        </div>
+      <p class="start"><img src="images/prize_start.png" alt=""></p>
+      <ul class="prize_set">
+          <li class="set_list">
+            <select id="set_list">
+              <option>选择抽奖名单</option>
+              <option>所有人员</option>
+              <option>表演人员</option>
+            </select>
+          </li>
+          <li class="set_grade">
+            <select id="set_grade">
+              <option>选择奖等</option>
+              <option>一等奖</option>
+              <option>二等奖</option>
+              <option>三等奖</option>
+              <option>四等奖</option>
+              <option>五等奖</option>
+              <option>特别奖</option>
+            </select>
+          </li>
+          <li class="set_people">人数<input type="tel" placeholder="输入中奖人数" id="prizeCount"></li>
+          <!-- <li class="set_money">金额<input type="tel" placeholder="输入中奖金额" id="prizeMoney"></li> -->
+      </ul>
+      
+  </div>
+</div>
+
+<input type="hidden" value="0" id="prize_btn">
+<script>
+  var myNumber;
+  var arr = [];
+  var arr2 = [];
+  var pp =0;
+  var a = 0;
+  var b = 0;
+  var c = 0;
+  var d = 0;
+  var e = 0;
+  var staffAll=["刘胜利","沈斌","伊林","罗磊","黄传兵","王思洁","李荣岩","王昆","蔡宗宝","吕松柏","余学智","付光雄","董前进","倪家华","陈艳","母天映","刘明干","邵旭","陈政和","曾凡旸","张飞","李磊","赵庆庆","赵明明","邬信华","李爱君","李光令","吴尚","钟金强","刘凤凤","周晓骋","吴啸啸","卓伟龙","袁龙意","邹麟军","田敏","徐向向","张瑛","史莉","谈伟","张书艳","揭新兰","王仕梅","王青松","刘波","戴勇峰","徐天赐","江城","李晓娟","管伟"];
+  var performer= ["罗韵嘉","罗振轩","周晓骋","钟金强","刘凤凤","吴尚","李光令","赵明明","陈政和","沈东燕","邹东烨","谈伟","揭新兰","张书艳","王仕梅","王青松","徐天赐","江城","管伟","李晓娟","蔡宗宝","李荣岩","董前进","陈艳","邵旭"];
+
+  /*alert(code.length);*/
+  /*随机所有的code并且不重复*/
+  function showRandomNum(num,list) {
+    var li = "";
+    for(var i = 0; i < list.length; i++){
+    	arr[i] = i;
+    }
+    arr.sort(function(){
+      return 0.5 - Math.random();
+    });
+    for(var i = 0; i < num; i++){
+      var index = arr[i];
+      arr2[i] = list[index];
+      li += '<li>'+list[index]+'</li>';
+    }
+    arr = []
+     $(".prize_list ul").html(li);
+  }
+
+  $(function () {
+    $(".start").click(function(){
+      if($("#prize_btn").val() == 0){
+        if($("#set_list").val() == "选择抽奖名单"){
+            alert("请选择抽奖名单");
+            return;
+        }
+        else if($("#set_grade").val() == "选择奖等") {
+            alert("请选择奖等");
+            return;
+        }else if($("#prizeCount").val() == "") {
+            alert("请输入中奖人数");
+            return;
+        }else if($("#prizeCount").val() > 10) {
+            alert("单次抽奖人数不能超过10人");
+            return;
+        }else{
+          $("#prize_btn").val(1);
+          if($("#set_list").val() == "所有人员"){
+              list=staffAll;
+          }
+          else {
+              list=performer;
+          }
+          var num = $("#prizeCount").val();
+          $(this).find("img").attr("src","images/prize_stop.png");
+          myNumber = setInterval(function(){
+            showRandomNum(num,list);
+          }, 30);
+        }
+      }else{
+        $("#prize_btn").val(0);
+        clearInterval(myNumber);
+        if (arr2.length > 0) {
+            for (var i = 0; i < arr2.length; i++) {
+            	for(var j = 0;j < list.length;j++){
+            		if(arr2[i] === list[j]){
+                    list.splice(j,1);
+            		}
+            	}
+            }
+        }
+        console.log(list);
+        $(this).find("img").attr("src","images/prize_start.png");
+        var li = "";
+        for(var i = 0;i<arr2.length;i++){
+              li += '<li>'+arr2[i]+'</li>';
+        }
+        arr2.splice(0,arr2.length);
+        if($('#set_grade').val() == "一等奖"){
+        	if(pp == 0){
+        		$('.prize_p').prepend("<p>"+$('#set_grade').val()+"</p>");
+        		pp = 1;
+        	}
+        	$('.prize_pp').append("<p>"+li+"</p>");
+        }else if($('#set_grade').val() == "二等奖"){
+        	if(a == 0){
+        		$('.prize_a').prepend("<p>"+$('#set_grade').val()+"</p>");
+        		a = 1;
+        	}
+        	$('.prize_aa').append("<p>"+li+"</p>");
+        }else if($('#set_grade').val() == "三等奖"){
+        	if(b == 0){
+        		$('.prize_b').prepend("<p>"+$('#set_grade').val()+"</p>");
+        		b = 1;
+        	}
+        	$('.prize_bb').append("<p>"+li+"</p>");
+        }else if($('#set_grade').val() == "四等奖"){
+        	if(c == 0){
+        		$('.prize_c').prepend("<p>"+$('#set_grade').val()+"</p>");
+        		c = 1;
+        	}
+        	$('.prize_cc').append("<p>"+li+"</p>");
+        }else if($('#set_grade').val() == "五等奖"){
+        	if(d == 0){
+        		$('.prize_d').prepend("<p>"+$('#set_grade').val()+"</p>");
+        		d = 1;
+        	}
+        	$('.prize_dd').append("<p>"+li+"</p>");
+        }else if($('#set_grade').val() == "特别奖"){
+            if(e == 0){
+                $('.prize_e').prepend("<p>"+$('#set_grade').val()+"</p>");
+                e = 1;
+            }
+            $('.prize_ee').append("<p>"+li+"</p>");
+        }
+        
+      }
+    });
+
+    //回车键控制开始和停止
+    $(document).keydown(function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 13) { // enter 键
+            $(".start").click();
+        }
+    });
+
+    $("#set_grade").change(function(){
+      $(".prize_grade span").text($(this).val());
+    });
+
+
+    $("#prizeMoney").keyup(function(){
+      $(".prize_grade i").text($(this).val());
+    });
+}); 
+</script>
+</body>
+</html>
